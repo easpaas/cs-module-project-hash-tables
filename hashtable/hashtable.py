@@ -1,3 +1,8 @@
+import sys
+sys.path.append("../../Data-Structures") 
+# from singly_linked_list import singly_linked_list
+print(f"sys path: {sys.path[0]}")
+
 class HashTableEntry: # same as Node class
     """
     Linked List hash table key/value pair
@@ -98,6 +103,7 @@ class HashTable:
         """
         index = self.hash_index(key)
         self.capacity[index] = value
+        # TODO Modify methods to handle collisions, implement with Linked List
 
 
     def delete(self, key):
@@ -114,6 +120,9 @@ class HashTable:
         else:
             self.capacity[index] = None
 
+        # TODO Modify methods to handle collisions, implement with Linked List
+
+
 
     def get(self, key):
         """
@@ -126,6 +135,9 @@ class HashTable:
         index = self.hash_index(key)
         value = self.capacity[index]
         return value or None
+
+        # TODO Modify methods to handle collisions, implement with Linked List
+
 
 
     def resize(self, new_capacity):
