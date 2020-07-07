@@ -1,4 +1,4 @@
-class HashTableEntry:
+class HashTableEntry: # same as Node class
     """
     Linked List hash table key/value pair
     """
@@ -21,8 +21,8 @@ class HashTable:
     """
 
     def __init__(self, capacity):
-        # Initialize a list of [None] 
-        self.capacity = [None] * MIN_CAPACITY
+        # Initialize capacity to an array with declared capacity 
+        self.capacity = [None] * capacity
 
 
     def get_num_slots(self):
@@ -35,7 +35,7 @@ class HashTable:
 
         Implement this.
         """
-        # print(f"length of list holding hash table: {len(self.capacity)}")
+        # print(f"length of hash table: {len(self.capacity)}")
         return len(self.capacity)
 
     def get_load_factor(self):
@@ -45,6 +45,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        # Load factor is the amount of space used / amount of total space
+        # return 1.0 - # num_of_slots_used / get_num_slots(self.capacity) 
 
 
     def fnv1(self, key):
@@ -83,6 +85,7 @@ class HashTable:
         within the storage capacity of the hash table.
         """
         # return self.fnv1(key) % len(self.capacity)
+        # print(f"hash index: {self.djb2(key) % len(self.capacity)}")
         return self.djb2(key) % len(self.capacity)
 
     def put(self, key, value):
@@ -93,9 +96,8 @@ class HashTable:
 
         Implement this.
         """
-        slot = self.hash_index(key)
-        entry = HashTableEntry(key, value)
-        self.capacity[slot] = entry
+        index = self.hash_index(key)
+        self.capacity[index] = value
 
 
     def delete(self, key):
@@ -121,12 +123,9 @@ class HashTable:
 
         Implement this.
         """
-        slot = self.hash_index(key)
-        entry = self.capacity[slot]
-
-        if entry:
-            return entry.value
-        return None
+        index = self.hash_index(key)
+        value = self.capacity[index]
+        return value or None
 
 
     def resize(self, new_capacity):
