@@ -1,61 +1,45 @@
 # Use frequency analysis to find the key to ciphertext.txt, and then
 # decode it.
 
+from collections import defaultdict
+
+# Setting default_factory to int creates a count of each letter
+cache = defaultdict(int)
+
 # Use Open() to read ciphertext.txt file
 f = open("ciphertext.txt", "r")
-# print(f.read())
-# uncomment when encode and decode work 
-# s = f.read()
-txt = f.read(25)
-# remove whitespaces 
-print(txt)
+txt = f.read()
 
-encode_table = {
-  'A': 'H',
-  'B': 'Z',
-  'C': 'Y',
-  'D': 'W',
-  'E': 'O',
-  'F': 'R',
-  'G': 'J',
-  'H': 'D',
-  'I': 'P',
-  'J': 'T',
-  'K': 'I',
-  'L': 'G',
-  'M': 'L',
-  'N': 'C',
-  'O': 'E',
-  'P': 'X',
-  'Q': 'K',
-  'R': 'U',
-  'S': 'N',
-  'T': 'F',
-  'U': 'A',
-  'V': 'M',
-  'W': 'B',
-  'X': 'Q',
-  'Y': 'V',
-  'Z': 'S'
-}
+# # create a decoded table using v:k from encode_table
+# decode_table = { v:k for k,v in encode_table.items()}
 
-# create a decoded table using v:k from encode_table
-decode_table = { v:k for k,v in encode_table.items()}
+# def decode(s):
+#   decoded = ""
+  
+#   # TODO - use frequency analysis to find key then decode key
 
-def decode(s):
-  decoded = ""
+#   for c in s:
+#     if c in decode_table.keys():
+#       decoded += decode_table[c]
+#     else: 
+#       decoded += c
 
-  for c in s:
-    if c == " ":
-      decoded += " "
-    else: 
-      decoded += decode_table[c]
+#   print(decoded)
 
-  # return decoded string 
-  return decoded
+for c in txt:
+    if c.isupper():
+        cache[c] += 1
 
-# call decode with ciphertext
-decode(txt)
+freq_list = ['E', 'T', 'A', 'O', 'H', 'N', 'R', 'I', 'S', 'D', 'L', 'W', 'U', 'G', 'F', 'B', 'M', 'Y', 'C', 'P', 'K', 'V', 'Q', 'J', 'X', 'Z']
+
+freq = [item[0] for item in sorted(cache.items(), key=lambda x: x[1], reverse=True)]
+
+lookup = {cipher: plain for cipher, plain in zip(freq, freq_list)}
+
+print(txt.translate(str.maketrans(lookup)))
+
+# # call decode with ciphertext
+# decode(txt)
 
 # close file when done
 f.close()
